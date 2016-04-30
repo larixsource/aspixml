@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<MessageDelivery>
+  <ForwardMessage nid="78212893" fid="81502503">
+    <MessageStatus code="105" time="2015-01-23 18:25:00">transmission to terminal complete</MessageStatus>
+  </ForwardMessage>
+  <ReturnMessage rid="1915861563">
+    <AdC ocean="AORWGL">DST009F2BD69</AdC>
+    <MessageData>902190000000000000000</MessageData>
+    <MessageStatus code="100" time="2015-05-04 13:18:36">status ok</MessageStatus>
+    <Flags les="0" app="0" />
+  </ReturnMessage>
+  <ReturnMessage rid="1915861943">
+    <AdC ocean="AORWGL">DST009F2BD69</AdC>
+    <MessageData>901199d52f9f0e6003833</MessageData>
+    <MessageStatus code="100" time="2015-05-04 13:19:15">status ok</MessageStatus>
+    <Flags les="0" app="0" />
+  </ReturnMessage>
+  <ForwardMessage nid="78213327" fid="81502933">
+    <MessageStatus code="105" time="2015-01-23 18:32:30">transmission to terminal complete</MessageStatus>
+  </ForwardMessage>
+  <ReturnMessage rid="1915918463">
+    <AdC ocean="AORWGL">DST009F2BD69</AdC>
+    <MessageData>902190000000000000000</MessageData>
+    <MessageStatus code="100" time="2015-05-04 15:08:16">status ok</MessageStatus>
+    <Flags les="0" app="0" />
+  </ReturnMessage>
+</MessageDelivery>
