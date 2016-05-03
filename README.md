@@ -18,3 +18,5 @@ MessageCopy | Response | No
 GetLastIdentifier | Request | No
 LastIdentifier | Response | No
 Fault | Response | Yes
+
+This package is still unstable.

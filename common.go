@@ -20,20 +20,8 @@ func (at *ASPITime) UnmarshalXMLAttr(attr xml.Attr) (err error) {
 	return
 }
 
-type FaultCode struct {
-	Value int `xml:",chardata"`
-}
-
-type FaultString struct {
-	Value string `xml:",chardata"`
-}
-
-type FaultDetail struct {
-	Value string `xml:",chardata"`
-}
-
 type Fault struct {
-	Code   FaultCode    `xml:"FaultCode"`
-	Msg    FaultString  `xml:"FaultString"`
-	Detail *FaultDetail `xml:"Detail,omitempty"`
+	Code   int    `xml:"FaultCode"`
+	Msg    string `xml:"FaultString"`
+	Detail string `xml:"Detail,omitempty"`
 }

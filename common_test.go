@@ -10,8 +10,8 @@ import (
 
 func TestMarshalFault(t *testing.T) {
 	f := Fault{
-		Code: FaultCode{203},
-		Msg:  FaultString{"access denied - authentication failed"},
+		Code: 203,
+		Msg:  "access denied - authentication failed",
 	}
 	b, err := xml.Marshal(&f)
 	require.Nil(t, err)
@@ -24,9 +24,9 @@ func TestUnmarshalFault(t *testing.T) {
 	var f Fault
 	err := xml.Unmarshal(msg, &f)
 	require.Nil(t, err)
-	assert.Equal(t, 203, f.Code.Value)
-	assert.Equal(t, "access denied - authentication failed", f.Msg.Value)
-	assert.Nil(t, f.Detail)
+	assert.Equal(t, 203, f.Code)
+	assert.Equal(t, "access denied - authentication failed", f.Msg)
+	assert.Empty(t, f.Detail)
 }
 
 func TestUnmarshalFaultWithDetail(t *testing.T) {
@@ -34,7 +34,7 @@ func TestUnmarshalFaultWithDetail(t *testing.T) {
 	var f Fault
 	err := xml.Unmarshal(msg, &f)
 	require.Nil(t, err)
-	assert.Equal(t, 203, f.Code.Value)
-	assert.Equal(t, "access denied - authentication failed", f.Msg.Value)
-	assert.Equal(t, "chan!", f.Detail.Value)
+	assert.Equal(t, 203, f.Code)
+	assert.Equal(t, "access denied - authentication failed", f.Msg)
+	assert.Equal(t, "chan!", f.Detail)
 }
