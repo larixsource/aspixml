@@ -7,7 +7,7 @@ import (
 
 type Authentication struct {
 	XMLName  xml.Name `xml:"Authentication"`
-	ID       int      `xml:"id,attr"`
+	ID       string   `xml:"id,attr"`
 	Password string   `xml:",chardata"`
 }
 

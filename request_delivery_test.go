@@ -12,7 +12,7 @@ import (
 func TestMarshalRequestDelivery(t *testing.T) {
 	msg := RequestDelivery{
 		Authentication: Authentication{
-			ID:       666,
+			ID:       "666",
 			Password: "muahahaha",
 		},
 		ForwardMessage: ForwardMessageReq{
