@@ -29,3 +29,20 @@ func TestMarshalRequestDelivery(t *testing.T) {
 	expectedXML := `<RequestDelivery><Authentication id="666">muahahaha</Authentication><ForwardMessage nid="6" limit="100"></ForwardMessage><ReturnMessage rid="21"></ReturnMessage></RequestDelivery>`
 	assert.Equal(t, expectedXML, buf.String())
 }
+
+func TestUnmarshalRequestDelivery(t *testing.T) {
+	msg := `
+<RequestDelivery>
+  <Authentication id="666">muahahaha</Authentication>
+  <ForwardMessage nid="6" limit="100"/>
+  <ReturnMessage rid="21"/>
+</RequestDelivery>`
+	var rd RequestDelivery
+	err := xml.Unmarshal([]byte(msg), &rd)
+	require.Nil(t, err)
+	assert.Equal(t, "666", rd.Authentication.ID)
+	assert.Equal(t, "muahahaha", rd.Authentication.Password)
+	assert.Equal(t, 6, rd.ForwardMessage.NID)
+	assert.Equal(t, 100, rd.ForwardMessage.Limit)
+	assert.Equal(t, 21, rd.ReturnMessage.RID)
+}

@@ -2,6 +2,7 @@ package aspixml
 
 import (
 	"encoding/xml"
+	"fmt"
 )
 
 type MessageStatus struct {
@@ -12,9 +13,10 @@ type MessageStatus struct {
 }
 
 type ForwardMessage struct {
-	NID           uint64 `xml:"nid,attr"`
-	FID           uint64 `xml:"fid,attr"`
-	Limit         int    `xml:"limit,attr,omitempty"`
+	XMLName       xml.Name `xml:"ForwardMessage"`
+	NID           uint64   `xml:"nid,attr"`
+	FID           uint64   `xml:"fid,attr"`
+	Limit         int      `xml:"limit,attr,omitempty"`
 	MessageStatus MessageStatus
 }
 
@@ -24,8 +26,8 @@ type AdC struct {
 }
 
 type Flags struct {
-	LES bool `xml:"les,attr,omitempty"`
-	App bool `xml:"app,attr,omitempty"`
+	LES int `xml:"les,attr"`
+	App int `xml:"app,attr"`
 }
 
 type QoS struct {
@@ -40,16 +42,45 @@ type QoS struct {
 }
 
 type ReturnMessage struct {
-	RID           uint64 `xml:"rid,attr"`
-	AdC           *AdC   `xml:"AdC,omitempty"`
-	MessageData   string `xml:"MessageData,omitempty"`
+	XMLName       xml.Name `xml:"ReturnMessage"`
+	RID           uint64   `xml:"rid,attr"`
+	AdC           *AdC     `xml:"AdC,omitempty"`
+	MessageData   string   `xml:"MessageData,omitempty"`
 	MessageStatus MessageStatus
 	Flags         *Flags `xml:"Flags,omitempty"`
 	QoS           *QoS   `xml:"QoS,omitempty"`
 }
 
+type FwdOrReturnMsg struct {
+	Return  *ReturnMessage
+	Forward *ForwardMessage
+}
+
+func (fr *FwdOrReturnMsg) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	switch {
+	case fr.Forward != nil:
+		return e.Encode(fr.Forward)
+	case fr.Return != nil:
+		return e.Encode(fr.Return)
+	default:
+		return fmt.Errorf("Invalid FwdOrReturnMsg: %+v", fr)
+	}
+}
+
+func (fr *FwdOrReturnMsg) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	switch start.Name.Local {
+	case "ForwardMessage":
+		fr.Forward = &ForwardMessage{}
+		return d.DecodeElement(fr.Forward, &start)
+	case "ReturnMessage":
+		fr.Return = &ReturnMessage{}
+		return d.DecodeElement(fr.Return, &start)
+	default:
+		return fmt.Errorf("Invalid element %s", start.Name)
+	}
+}
+
 type MessageDelivery struct {
-	XMLName         xml.Name         `xml:"MessageDelivery"`
-	ForwardMessages []ForwardMessage `xml:"ForwardMessage"`
-	ReturnMessages  []ReturnMessage  `xml:"ReturnMessage"`
+	XMLName  xml.Name         `xml:"MessageDelivery"`
+	Messages []FwdOrReturnMsg `xml:",any"`
 }

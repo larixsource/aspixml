@@ -20,6 +20,13 @@ func (at *ASPITime) UnmarshalXMLAttr(attr xml.Attr) (err error) {
 	return
 }
 
+func (at *ASPITime) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
+	return xml.Attr{
+		Name:  name,
+		Value: at.Time.Format("2006-01-02 15:04:05"),
+	}, nil
+}
+
 type Fault struct {
 	Code   int    `xml:"FaultCode"`
 	Msg    string `xml:"FaultString"`
