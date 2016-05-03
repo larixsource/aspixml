@@ -17,4 +17,4 @@ GetMessageCopy | Request | No
 MessageCopy | Response | No
 GetLastIdentifier | Request | No
 LastIdentifier | Response | No
-Fault | Response | No
+Fault | Response | Yes
