@@ -74,42 +74,42 @@ func TestUnmarshalMessageDelivery(t *testing.T) {
 	assert.Zero(t, ret.Flags.App)
 }
 
-func TestMarshalMessageDelivery(t *testing.T) {
-	md := MessageDelivery{
-		Messages: []FwdOrReturnMsg{
-			FwdOrReturnMsg{
-				Forward: &ForwardMessage{
-					NID: 78213327,
-					FID: 81502933,
-					MessageStatus: MessageStatus{
-						Code:  105,
-						Time:  ASPITime{time.Date(2015, 1, 23, 18, 25, 0, 0, time.UTC)},
-						Value: "transmission to terminal complete",
-					},
-				},
-			},
-			FwdOrReturnMsg{
-				Return: &ReturnMessage{
-					RID: 1915861563,
-					AdC: &AdC{
-						Ocean: "AORWGL",
-						Value: "DST009F2BD69",
-					},
-					MessageData: "902190000000000000000",
-					MessageStatus: MessageStatus{
-						Code:  100,
-						Time:  ASPITime{time.Date(2015, 5, 4, 13, 18, 36, 0, time.UTC)},
-						Value: "status ok",
-					},
-					Flags: &Flags{
-						LES: 0,
-						App: 0,
-					},
+var testMessageDelivery1 = MessageDelivery{
+	Messages: []FwdOrReturnMsg{
+		FwdOrReturnMsg{
+			Forward: &ForwardMessage{
+				NID: 78213327,
+				FID: 81502933,
+				MessageStatus: MessageStatus{
+					Code:  105,
+					Time:  ASPITime{time.Date(2015, 1, 23, 18, 25, 0, 0, time.UTC)},
+					Value: "transmission to terminal complete",
 				},
 			},
 		},
-	}
-	expected := `<MessageDelivery>
+		FwdOrReturnMsg{
+			Return: &ReturnMessage{
+				RID: 1915861563,
+				AdC: &AdC{
+					Ocean: "AORWGL",
+					Value: "DST009F2BD69",
+				},
+				MessageData: "902190000000000000000",
+				MessageStatus: MessageStatus{
+					Code:  100,
+					Time:  ASPITime{time.Date(2015, 5, 4, 13, 18, 36, 0, time.UTC)},
+					Value: "status ok",
+				},
+				Flags: &Flags{
+					LES: 0,
+					App: 0,
+				},
+			},
+		},
+	},
+}
+
+var testMessageDelivery1XML = `<MessageDelivery>
   <ForwardMessage nid="78213327" fid="81502933">
     <MessageStatus code="105" time="2015-01-23 18:25:00">transmission to terminal complete</MessageStatus>
   </ForwardMessage>
@@ -120,7 +120,9 @@ func TestMarshalMessageDelivery(t *testing.T) {
     <Flags les="0" app="0"></Flags>
   </ReturnMessage>
 </MessageDelivery>`
-	msg, err := xml.MarshalIndent(&md, "", "  ")
+
+func TestMarshalMessageDelivery(t *testing.T) {
+	msg, err := xml.MarshalIndent(&testMessageDelivery1, "", "  ")
 	require.Nil(t, err)
-	assert.Equal(t, []byte(expected), msg)
+	assert.Equal(t, []byte(testMessageDelivery1XML), msg)
 }
