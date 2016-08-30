@@ -1,4 +1,4 @@
-# aspixml
+# aspixml [![Build Status](https://travis-ci.org/larixsource/aspixml.svg?branch=master)](https://travis-ci.org/larixsource/aspixml)
 ASPI-XML/3.2 types
 
 This package provides types to marshal/unmarshal messages of the Honeywell ASPI-XML/3.2 protocol.
